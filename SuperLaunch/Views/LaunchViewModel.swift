@@ -10,14 +10,25 @@ final class LaunchViewModel:ObservableObject{
     @Published var enteredText = "" {
         didSet {
             if enteredText != "" {
-                let temp = enteredText;
-                enteredText = ""
-                openApp(appName: temp)
+                var maxDistance = 10000000000
+                var appName = ""
+                appNamesArray.forEach{ item in
+                    let distance = levenshteinDistance(enteredText, item)
+                    print("Distance for: ", item, "is ", distance)
+                    if(distance < maxDistance) {
+                        appName = item
+                        maxDistance = distance
+                    }
+                }
+                print("Started with : ", enteredText, "ended with: ", appName)
+//                enteredText = ""
+//                openApp(appName: appName)
             }
         }
     }
 
     @Published var appNames = [String:String]()
+    var appNamesArray: Array<String> = []
     
     func loadJson(forName name: String) {
         do {
@@ -30,6 +41,7 @@ final class LaunchViewModel:ObservableObject{
                        lowercaseKeys[lowercaseKey] = value
                    }
                    appNames = lowercaseKeys
+                   appNamesArray = Array(lowercaseKeys.keys)
                } else {
                   print("Given JSON is not a valid dictionary object.")
                }

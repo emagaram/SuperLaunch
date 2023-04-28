@@ -15,6 +15,8 @@
 		035469C629FB462F00F8F430 /* LaunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035469C529FB462F00F8F430 /* LaunchViewModel.swift */; };
 		035469C929FB465F00F8F430 /* AppsMap.json in Resources */ = {isa = PBXBuildFile; fileRef = 035469C829FB465F00F8F430 /* AppsMap.json */; };
 		035469CB29FB54D200F8F430 /* CustomKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035469CA29FB54D200F8F430 /* CustomKeyboard.swift */; };
+		035F96B529FBF7300055F17F /* levenshtein.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F96B429FBF7300055F17F /* levenshtein.swift */; };
+		035F96B729FC7ED90055F17F /* beamSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F96B629FC7ED90055F17F /* beamSearch.swift */; };
 		037AF13529FBEAE400335B70 /* MyAppsMap.json in Resources */ = {isa = PBXBuildFile; fileRef = 037AF13429FBEAE400335B70 /* MyAppsMap.json */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,8 @@
 		035469C529FB462F00F8F430 /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
 		035469C829FB465F00F8F430 /* AppsMap.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AppsMap.json; sourceTree = "<group>"; };
 		035469CA29FB54D200F8F430 /* CustomKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomKeyboard.swift; sourceTree = "<group>"; };
+		035F96B429FBF7300055F17F /* levenshtein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = levenshtein.swift; sourceTree = "<group>"; };
+		035F96B629FC7ED90055F17F /* beamSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beamSearch.swift; sourceTree = "<group>"; };
 		037AF13429FBEAE400335B70 /* MyAppsMap.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MyAppsMap.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,6 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				035469CA29FB54D200F8F430 /* CustomKeyboard.swift */,
+				035F96B429FBF7300055F17F /* levenshtein.swift */,
+				035F96B629FC7ED90055F17F /* beamSearch.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -174,7 +180,9 @@
 				035469CB29FB54D200F8F430 /* CustomKeyboard.swift in Sources */,
 				035469B329FB45F400F8F430 /* SuperLaunchApp.swift in Sources */,
 				035469C629FB462F00F8F430 /* LaunchViewModel.swift in Sources */,
+				035F96B729FC7ED90055F17F /* beamSearch.swift in Sources */,
 				035469C229FB460E00F8F430 /* LaunchView.swift in Sources */,
+				035F96B529FBF7300055F17F /* levenshtein.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,8 @@ struct LaunchView: View {
             TextField("Enter text", text: $viewModel.enteredText)
                 .onChange(of: viewModel.enteredText) { newText in
                 }
+                .autocorrectionDisabled(true)
+//                .searchSuggestions
         }
     }
 }
