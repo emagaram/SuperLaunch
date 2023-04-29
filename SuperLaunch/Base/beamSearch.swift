@@ -13,7 +13,7 @@ enum PathType {
 }
 
 class Beam {
-    var paths: Array<Path> = []
+    var paths: [Path] = []
 }
 
 struct Path {
@@ -23,52 +23,89 @@ struct Path {
     var type: PathType
 }
 
-struct Coordinate {
-    var x: Double
-    var y: Double
+typealias XYPair = (x: Double, y: Double)
+typealias Key = (key:Character, value:XYPair)
+typealias Keys = [Character: XYPair]
+
+
+let sigma = 15.0
+
+func gaussianProbability(tappedPoint: XYPair,
+                         keyCenter: XYPair,
+                         sigma: Double) -> Double {
+    let distanceSquared = pow(tappedPoint.x - keyCenter.x, 2) + pow(tappedPoint.y - keyCenter.y, 2)
+    let variance = pow(sigma, 2)
+    
+    let probability = exp(-distanceSquared / (2 * variance))
+    return probability
 }
 
-func add_alignment_search_paths (next_char:Character,
-                                 next_beam:Beam,
+func add_alignment_search_paths (char:Character,
+                                 beam:Beam,
                                  search_path:Path,
-                                 point: Coordinate) {
+                                 point: XYPair,
+                                 keys: Keys) {
+    let charProbability = gaussianProbability(tappedPoint: point, keyCenter: keys[char]!, sigma: sigma)
+    let newScore = search_path.score*charProbability
+    beam.paths.append(Path(prefix: search_path.prefix, score: newScore, prev_point: search_path.prev_point+1, type: .alignment))
+    
     
 }
 
-func add_transition_search_paths(next_beam: Beam, search_path: Path, prev_letter: Character, point: Coordinate){
-    
+func add_transition_search_paths(beam: Beam, search_path: Path, keys: Keys, letter: Character, point: XYPair){
+    let charProbability = gaussianProbability(tappedPoint: point, keyCenter: keys[letter]!, sigma: sigma)
+    let newScore = search_path.score*charProbability
+    beam.paths.append(Path(prefix: search_path.prefix, score: newScore, prev_point: search_path.prev_point+1, type: .transition))
 }
 
-func get_next_letters_from_path (path: String) -> Array<Character> {
+func get_next_letters_from_path (path: String) -> [Character] {
     return []
 }
 
 /*
- keys: Need coordinates of each key along with their size
+ keys: CENTER coordinates of each key along with their size,
+ keyboard_width: Double
+ keyboard_height: Double
  point: x y coordinates of the point in the path
  currentBeam: Current beam,
+ dictionary: All app names and maybe shortcuts
  */
 //The entire beamSearch function, returns the next beam
-func getNextBeam (currentBeam: Beam, currentPoint: Coordinate, keys: Any) -> Beam {
-    
+func getNextBeam (currentBeam: Beam, currentPoint: XYPair, keys: Keys, dictionary: [String]) -> Beam {
+    let BEAM_SIZE = 10
     var next_beam = Beam.init()
     currentBeam.paths.forEach{ search_path in
-        add_alignment_search_paths(next_char:search_path.prefix.last!, next_beam: next_beam, search_path: search_path, point: currentPoint)
-        add_transition_search_paths(next_beam:next_beam,
+        add_alignment_search_paths(char:search_path.prefix.last!, beam: next_beam, search_path: search_path, point: currentPoint, keys: keys)
+        add_transition_search_paths(beam:next_beam,
                                     search_path:search_path,
-                                    prev_letter:search_path.prefix.last!,
+                                    keys:keys,
+                                    letter:search_path.prefix.last!,
                                     point:currentPoint
         )
         if search_path.type == .alignment {
             // Add transition search path for all the possible next letters
             var next_letters = get_next_letters_from_path(path:search_path.prefix)
             next_letters.forEach { letter in
-                add_transition_search_paths(next_beam: next_beam, search_path: search_path, prev_letter: letter, point: currentPoint)
+                add_transition_search_paths(beam: next_beam, search_path: search_path, keys: keys, letter: letter, point: currentPoint)
             }
         }
-        // currentBeam sort by Prob
-        // currentBeam truncate
     }
+    // Descending order
     next_beam.paths.sort(by: {$0.score > $1.score})
+    
+    //Truncate
+    while(next_beam.paths.count > BEAM_SIZE){
+        next_beam.paths.removeLast()
+    }
+    
+    //Normalize
+    var totalProbability = 0.0
+    currentBeam.paths.forEach { search_path in
+        totalProbability+=search_path.score
+    }
+    let normalize = 1 / totalProbability
+    currentBeam.paths.indices.forEach{ index in
+        currentBeam.paths[index].score *= normalize
+    }
     return next_beam
 }
