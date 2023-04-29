@@ -93,7 +93,7 @@ func getNextBeam (currentBeam: Beam, currentPoint: XYPair, keys: Keys, dictionar
     // Descending order
     next_beam.paths.sort(by: {$0.score > $1.score})
     
-    //Truncate
+    // Truncate
     while(next_beam.paths.count > BEAM_SIZE){
         next_beam.paths.removeLast()
     }
