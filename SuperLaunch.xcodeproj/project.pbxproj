@@ -17,6 +17,8 @@
 		035469CB29FB54D200F8F430 /* CustomKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035469CA29FB54D200F8F430 /* CustomKeyboard.swift */; };
 		035F96B529FBF7300055F17F /* levenshtein.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F96B429FBF7300055F17F /* levenshtein.swift */; };
 		035F96B729FC7ED90055F17F /* beamSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F96B629FC7ED90055F17F /* beamSearch.swift */; };
+		035F96B929FCB8EF0055F17F /* Trie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F96B829FCB8EF0055F17F /* Trie.swift */; };
+		035F96BB29FDE12C0055F17F /* CustomKeyboard1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F96BA29FDE12C0055F17F /* CustomKeyboard1.swift */; };
 		037AF13529FBEAE400335B70 /* MyAppsMap.json in Resources */ = {isa = PBXBuildFile; fileRef = 037AF13429FBEAE400335B70 /* MyAppsMap.json */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +34,8 @@
 		035469CA29FB54D200F8F430 /* CustomKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomKeyboard.swift; sourceTree = "<group>"; };
 		035F96B429FBF7300055F17F /* levenshtein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = levenshtein.swift; sourceTree = "<group>"; };
 		035F96B629FC7ED90055F17F /* beamSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beamSearch.swift; sourceTree = "<group>"; };
+		035F96B829FCB8EF0055F17F /* Trie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trie.swift; sourceTree = "<group>"; };
+		035F96BA29FDE12C0055F17F /* CustomKeyboard1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomKeyboard1.swift; sourceTree = "<group>"; };
 		037AF13429FBEAE400335B70 /* MyAppsMap.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MyAppsMap.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,6 +104,8 @@
 				035469CA29FB54D200F8F430 /* CustomKeyboard.swift */,
 				035F96B429FBF7300055F17F /* levenshtein.swift */,
 				035F96B629FC7ED90055F17F /* beamSearch.swift */,
+				035F96B829FCB8EF0055F17F /* Trie.swift */,
+				035F96BA29FDE12C0055F17F /* CustomKeyboard1.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -177,10 +183,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				035469C429FB462500F8F430 /* LaunchModel.swift in Sources */,
+				035F96B929FCB8EF0055F17F /* Trie.swift in Sources */,
 				035469CB29FB54D200F8F430 /* CustomKeyboard.swift in Sources */,
 				035469B329FB45F400F8F430 /* SuperLaunchApp.swift in Sources */,
 				035469C629FB462F00F8F430 /* LaunchViewModel.swift in Sources */,
 				035F96B729FC7ED90055F17F /* beamSearch.swift in Sources */,
+				035F96BB29FDE12C0055F17F /* CustomKeyboard1.swift in Sources */,
 				035469C229FB460E00F8F430 /* LaunchView.swift in Sources */,
 				035F96B529FBF7300055F17F /* levenshtein.swift in Sources */,
 			);

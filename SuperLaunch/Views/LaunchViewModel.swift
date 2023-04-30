@@ -22,13 +22,14 @@ final class LaunchViewModel:ObservableObject{
                 }
                 print("Started with : ", enteredText, "ended with: ", appName)
 //                enteredText = ""
-//                openApp(appName: appName)
+                openApp(appName: appName)
             }
         }
     }
 
     @Published var appNames = [String:String]()
     var appNamesArray: Array<String> = []
+    var appNamesTrie=Trie()
     
     func loadJson(forName name: String) {
         do {
@@ -42,6 +43,9 @@ final class LaunchViewModel:ObservableObject{
                    }
                    appNames = lowercaseKeys
                    appNamesArray = Array(lowercaseKeys.keys)
+                   appNamesArray.forEach{name in
+                       appNamesTrie.insert(word: name)
+                   }
                } else {
                   print("Given JSON is not a valid dictionary object.")
                }

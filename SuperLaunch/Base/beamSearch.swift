@@ -23,7 +23,7 @@ struct Path {
     var type: PathType
 }
 
-typealias XYPair = (x: Double, y: Double)
+typealias XYPair = (x: CGFloat, y: CGFloat)
 typealias Key = (key:Character, value:XYPair)
 typealias Keys = [Character: XYPair]
 
@@ -58,8 +58,17 @@ func add_transition_search_paths(beam: Beam, search_path: Path, keys: Keys, lett
     beam.paths.append(Path(prefix: search_path.prefix, score: newScore, prev_point: search_path.prev_point+1, type: .transition))
 }
 
-func get_next_letters_from_path (path: String) -> [Character] {
-    return []
+func get_next_letters_from_path (path: String, appNamesTrie:Trie) -> [Character] {
+    var result: [Character] = []
+    (Unicode.Scalar("a").value...Unicode.Scalar("z").value).forEach({
+        let letter = Character(Unicode.Scalar($0) ?? " ")
+        var pathCopy = path + letter.lowercased()
+        if(appNamesTrie.startsWith(prefix: pathCopy)){
+            result.append(letter)
+        }
+    })
+    return result
+    
 }
 
 /*
@@ -71,7 +80,7 @@ func get_next_letters_from_path (path: String) -> [Character] {
  dictionary: All app names and maybe shortcuts
  */
 //The entire beamSearch function, returns the next beam
-func getNextBeam (currentBeam: Beam, currentPoint: XYPair, keys: Keys, dictionary: [String]) -> Beam {
+func getNextBeam (currentBeam: Beam, currentPoint: XYPair, keys: Keys, dictionary: [String], appNamesTrie: Trie) -> Beam {
     let BEAM_SIZE = 10
     var next_beam = Beam.init()
     currentBeam.paths.forEach{ search_path in
@@ -84,7 +93,7 @@ func getNextBeam (currentBeam: Beam, currentPoint: XYPair, keys: Keys, dictionar
         )
         if search_path.type == .alignment {
             // Add transition search path for all the possible next letters
-            var next_letters = get_next_letters_from_path(path:search_path.prefix)
+            var next_letters = get_next_letters_from_path(path:search_path.prefix, appNamesTrie: appNamesTrie)
             next_letters.forEach { letter in
                 add_transition_search_paths(beam: next_beam, search_path: search_path, keys: keys, letter: letter, point: currentPoint)
             }

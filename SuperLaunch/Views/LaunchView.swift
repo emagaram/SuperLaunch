@@ -11,7 +11,9 @@ struct LaunchView: View {
                 .onChange(of: viewModel.enteredText) { newText in
                 }
                 .autocorrectionDisabled(true)
-//                .searchSuggestions
+            
         }
+        Spacer()
+        CustomKeyboard(text: $viewModel.enteredText)
     }
 }
