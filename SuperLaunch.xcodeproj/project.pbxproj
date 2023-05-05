@@ -18,8 +18,12 @@
 		035F96B529FBF7300055F17F /* levenshtein.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F96B429FBF7300055F17F /* levenshtein.swift */; };
 		035F96B729FC7ED90055F17F /* beamSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F96B629FC7ED90055F17F /* beamSearch.swift */; };
 		035F96B929FCB8EF0055F17F /* Trie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F96B829FCB8EF0055F17F /* Trie.swift */; };
-		035F96BB29FDE12C0055F17F /* CustomKeyboard1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F96BA29FDE12C0055F17F /* CustomKeyboard1.swift */; };
 		037AF13529FBEAE400335B70 /* MyAppsMap.json in Resources */ = {isa = PBXBuildFile; fileRef = 037AF13429FBEAE400335B70 /* MyAppsMap.json */; };
+		03F9520A2A04925A00BEE93B /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F952092A04925A00BEE93B /* DrawingView.swift */; };
+		03F9520C2A04927700BEE93B /* DrawingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F9520B2A04927700BEE93B /* DrawingEngine.swift */; };
+		03F9520E2A0492A800BEE93B /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F9520D2A0492A800BEE93B /* Line.swift */; };
+		03F952102A04943600BEE93B /* DrawingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F9520F2A04943600BEE93B /* DrawingShape.swift */; };
+		03F952122A049D9300BEE93B /* simplifyLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F952112A049D9300BEE93B /* simplifyLine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,8 +39,12 @@
 		035F96B429FBF7300055F17F /* levenshtein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = levenshtein.swift; sourceTree = "<group>"; };
 		035F96B629FC7ED90055F17F /* beamSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beamSearch.swift; sourceTree = "<group>"; };
 		035F96B829FCB8EF0055F17F /* Trie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trie.swift; sourceTree = "<group>"; };
-		035F96BA29FDE12C0055F17F /* CustomKeyboard1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomKeyboard1.swift; sourceTree = "<group>"; };
 		037AF13429FBEAE400335B70 /* MyAppsMap.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MyAppsMap.json; sourceTree = "<group>"; };
+		03F952092A04925A00BEE93B /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		03F9520B2A04927700BEE93B /* DrawingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingEngine.swift; sourceTree = "<group>"; };
+		03F9520D2A0492A800BEE93B /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		03F9520F2A04943600BEE93B /* DrawingShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingShape.swift; sourceTree = "<group>"; };
+		03F952112A049D9300BEE93B /* simplifyLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simplifyLine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +113,11 @@
 				035F96B429FBF7300055F17F /* levenshtein.swift */,
 				035F96B629FC7ED90055F17F /* beamSearch.swift */,
 				035F96B829FCB8EF0055F17F /* Trie.swift */,
-				035F96BA29FDE12C0055F17F /* CustomKeyboard1.swift */,
+				03F952092A04925A00BEE93B /* DrawingView.swift */,
+				03F9520B2A04927700BEE93B /* DrawingEngine.swift */,
+				03F9520D2A0492A800BEE93B /* Line.swift */,
+				03F9520F2A04943600BEE93B /* DrawingShape.swift */,
+				03F952112A049D9300BEE93B /* simplifyLine.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -183,13 +195,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				035469C429FB462500F8F430 /* LaunchModel.swift in Sources */,
+				03F9520C2A04927700BEE93B /* DrawingEngine.swift in Sources */,
 				035F96B929FCB8EF0055F17F /* Trie.swift in Sources */,
+				03F9520A2A04925A00BEE93B /* DrawingView.swift in Sources */,
 				035469CB29FB54D200F8F430 /* CustomKeyboard.swift in Sources */,
 				035469B329FB45F400F8F430 /* SuperLaunchApp.swift in Sources */,
+				03F952122A049D9300BEE93B /* simplifyLine.swift in Sources */,
+				03F952102A04943600BEE93B /* DrawingShape.swift in Sources */,
 				035469C629FB462F00F8F430 /* LaunchViewModel.swift in Sources */,
 				035F96B729FC7ED90055F17F /* beamSearch.swift in Sources */,
-				035F96BB29FDE12C0055F17F /* CustomKeyboard1.swift in Sources */,
 				035469C229FB460E00F8F430 /* LaunchView.swift in Sources */,
+				03F9520E2A0492A800BEE93B /* Line.swift in Sources */,
 				035F96B529FBF7300055F17F /* levenshtein.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

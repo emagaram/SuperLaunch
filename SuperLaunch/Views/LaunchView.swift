@@ -1,19 +1,15 @@
 import SwiftUI
 struct LaunchView: View {
-    // The view model is not used in this example
-    // You may need to adjust the code to use it as per your requirements
-    @StateObject private var viewModel = LaunchViewModel()
-    
+    // The view model is not used in this
+    @ObservedObject var viewModel = LaunchViewModel()
+    func onEndedCallback () {
+        print("END!")
+        viewModel.openApp(appName: viewModel.predicted)
+    }
 
     var body: some View {
-        VStack {
-            TextField("Enter text", text: $viewModel.enteredText)
-                .onChange(of: viewModel.enteredText) { newText in
-                }
-                .autocorrectionDisabled(true)
-            
-        }
         Spacer()
-        CustomKeyboard(text: $viewModel.enteredText)
+        Text(viewModel.predicted)
+        CustomKeyboard(onEndedCallback: onEndedCallback, viewModel: viewModel)
     }
 }

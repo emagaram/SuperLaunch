@@ -26,7 +26,39 @@ final class LaunchViewModel:ObservableObject{
             }
         }
     }
-
+    @Published var buttonCenterCoords:Keys = [:]
+    let epsilon: CGFloat = 1.0
+    func processPoints() -> String? {
+        if let lastLine = lastLine {
+            let epsilon: CGFloat = 2.0 // Choose an appropriate epsilon value based on your requirements
+            let simplifiedPoints = ramerDouglasPeucker(lastLine.points, epsilon: epsilon)
+            var currentBeam = Beam()
+            (Unicode.Scalar("a").value...Unicode.Scalar("z").value).forEach({
+                let letter = String(Unicode.Scalar($0) ?? " ")
+                if(appNamesTrie.startsWith(prefix: letter)){
+                    let new_path = PathBeam(prefix: letter, score: 1, type: .alignment)
+                    add_alignment_search_paths(char:letter,
+                                                             beam:currentBeam,
+                                                             search_path:new_path,
+                                                             point:simplifiedPoints[0],
+                                                             keys:buttonCenterCoords)
+                }
+            })
+            print("SPoints", simplifiedPoints)
+            for point in simplifiedPoints.dropFirst() {
+                currentBeam = getNextBeam(currentBeam: currentBeam, currentPoint: point, keys: buttonCenterCoords, dictionary: appNamesArray, appNamesTrie: appNamesTrie)
+            }
+            return currentBeam.paths[0].prefix
+        }
+        return nil
+    }
+    @Published var lastLine:Line? = nil {
+        didSet {
+            predicted = appNamesTrie.getWordWithPrefix(prefix:processPoints()!)!
+            print("PRED",predicted)
+        }
+    }
+    @Published var predicted:String = ""
     @Published var appNames = [String:String]()
     var appNamesArray: Array<String> = []
     var appNamesTrie=Trie()

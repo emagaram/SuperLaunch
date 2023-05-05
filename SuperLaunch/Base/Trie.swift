@@ -47,4 +47,32 @@ class Trie {
         }
         return true
     }
+    func getWordWithPrefix(prefix: String) -> String? {
+            var currentNode = root
+            var word = prefix
+            for char in prefix {
+                guard let nextNode = currentNode.children[char] else {
+                    return nil
+                }
+                currentNode = nextNode
+            }
+            
+            return getWordHelper(node: currentNode, word: &word)
+        }
+        
+        private func getWordHelper(node: TrieNode, word: inout String) -> String? {
+            if node.isEndOfWord {
+                return word
+            }
+            
+            for (char, nextNode) in node.children {
+                word.append(char)
+                if let result = getWordHelper(node: nextNode, word: &word) {
+                    return result
+                }
+                word.removeLast()
+            }
+            
+            return nil
+        }
 }

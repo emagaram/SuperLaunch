@@ -13,25 +13,24 @@ enum PathType {
 }
 
 class Beam {
-    var paths: [Path] = []
+    var paths: [PathBeam] = []
 }
 
-struct Path {
+struct PathBeam {
     var prefix:String
     var score: Double
-    var prev_point: Int
+    var prev_point: CGPoint?
     var type: PathType
 }
 
-typealias XYPair = (x: CGFloat, y: CGFloat)
-typealias Key = (key:Character, value:XYPair)
-typealias Keys = [Character: XYPair]
+typealias Key = (key:String, value:CGPoint)
+typealias Keys = [String: CGPoint]
 
 
 let sigma = 15.0
 
-func gaussianProbability(tappedPoint: XYPair,
-                         keyCenter: XYPair,
+func gaussianProbability(tappedPoint: CGPoint,
+                         keyCenter: CGPoint,
                          sigma: Double) -> Double {
     let distanceSquared = pow(tappedPoint.x - keyCenter.x, 2) + pow(tappedPoint.y - keyCenter.y, 2)
     let variance = pow(sigma, 2)
@@ -40,33 +39,40 @@ func gaussianProbability(tappedPoint: XYPair,
     return probability
 }
 
-func add_alignment_search_paths (char:Character,
+func add_alignment_search_paths (char:String,
                                  beam:Beam,
-                                 search_path:Path,
-                                 point: XYPair,
+                                 search_path:PathBeam,
+                                 point: CGPoint,
                                  keys: Keys) {
     let charProbability = gaussianProbability(tappedPoint: point, keyCenter: keys[char]!, sigma: sigma)
     let newScore = search_path.score*charProbability
-    beam.paths.append(Path(prefix: search_path.prefix, score: newScore, prev_point: search_path.prev_point+1, type: .alignment))
+    beam.paths.append(PathBeam(prefix: search_path.prefix, score: newScore, prev_point: search_path.prev_point, type: .alignment))
     
     
 }
 
-func add_transition_search_paths(beam: Beam, search_path: Path, keys: Keys, letter: Character, point: XYPair){
+func add_transition_search_paths(beam: Beam, search_path: PathBeam, keys: Keys, letter: String, point: CGPoint){
     let charProbability = gaussianProbability(tappedPoint: point, keyCenter: keys[letter]!, sigma: sigma)
     let newScore = search_path.score*charProbability
-    beam.paths.append(Path(prefix: search_path.prefix, score: newScore, prev_point: search_path.prev_point+1, type: .transition))
+    beam.paths.append(PathBeam(prefix: search_path.prefix+letter, score: newScore, prev_point: search_path.prev_point, type: .transition))
 }
 
-func get_next_letters_from_path (path: String, appNamesTrie:Trie) -> [Character] {
-    var result: [Character] = []
-    (Unicode.Scalar("a").value...Unicode.Scalar("z").value).forEach({
-        let letter = Character(Unicode.Scalar($0) ?? " ")
+func get_next_letters_from_path (path: String, appNamesTrie:Trie) -> [String] {
+    var result: [String] = []
+    func processChar(c:UInt32){
+        let letter = Character(Unicode.Scalar(c) ?? " ")
         var pathCopy = path + letter.lowercased()
         if(appNamesTrie.startsWith(prefix: pathCopy)){
-            result.append(letter)
+            result.append(letter.lowercased())
         }
+    }
+    (Unicode.Scalar("a").value...Unicode.Scalar("z").value).forEach({
+        processChar(c:$0)
     })
+    (Unicode.Scalar("0").value...Unicode.Scalar("9").value).forEach{
+        processChar(c: $0)
+    }
+    processChar(c: Unicode.Scalar(" ").value)
     return result
     
 }
@@ -80,20 +86,24 @@ func get_next_letters_from_path (path: String, appNamesTrie:Trie) -> [Character]
  dictionary: All app names and maybe shortcuts
  */
 //The entire beamSearch function, returns the next beam
-func getNextBeam (currentBeam: Beam, currentPoint: XYPair, keys: Keys, dictionary: [String], appNamesTrie: Trie) -> Beam {
+func getNextBeam (currentBeam: Beam, currentPoint: CGPoint, keys: Keys, dictionary: [String], appNamesTrie: Trie) -> Beam {
     let BEAM_SIZE = 10
-    var next_beam = Beam.init()
+    let next_beam = Beam.init()
     currentBeam.paths.forEach{ search_path in
-        add_alignment_search_paths(char:search_path.prefix.last!, beam: next_beam, search_path: search_path, point: currentPoint, keys: keys)
-        add_transition_search_paths(beam:next_beam,
-                                    search_path:search_path,
-                                    keys:keys,
-                                    letter:search_path.prefix.last!,
-                                    point:currentPoint
-        )
+        let next_letters = get_next_letters_from_path(path:search_path.prefix, appNamesTrie: appNamesTrie)
+        add_alignment_search_paths(char:search_path.prefix.last!.lowercased(), beam: next_beam, search_path: search_path, point: currentPoint, keys: keys)
+        
+        if(next_letters.contains(search_path.prefix.last!.lowercased())){
+            add_transition_search_paths(beam:next_beam,
+                                        search_path:search_path,
+                                        keys:keys,
+                                        letter:search_path.prefix.last!.lowercased(),
+                                        point:currentPoint
+            )
+        }
+        
         if search_path.type == .alignment {
             // Add transition search path for all the possible next letters
-            var next_letters = get_next_letters_from_path(path:search_path.prefix, appNamesTrie: appNamesTrie)
             next_letters.forEach { letter in
                 add_transition_search_paths(beam: next_beam, search_path: search_path, keys: keys, letter: letter, point: currentPoint)
             }
@@ -115,6 +125,8 @@ func getNextBeam (currentBeam: Beam, currentPoint: XYPair, keys: Keys, dictionar
     let normalize = 1 / totalProbability
     currentBeam.paths.indices.forEach{ index in
         currentBeam.paths[index].score *= normalize
+        print(currentBeam.paths[index].prefix)
     }
+    print("")
     return next_beam
 }
